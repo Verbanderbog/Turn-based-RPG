@@ -27,12 +27,19 @@ public class ResourceStat : CharacterStat
             _currentAmount = min;
         return CurrentAmount;
     }
-    public new void AddModifier(StatModifier mod)
+    public new void AddModifier(params StatModifier[] mods)
     {
-        base.AddModifier(mod);
+        //TODO: apply modifiers to CurrentAmount
+        base.AddModifier(mods);
     }
     public new void RemoveModifier(StatModifier mod)
     {
+        //TODO: apply removal of modifier to CurrentAmount
         base.RemoveModifier(mod);
+    }
+    public new bool RemoveAllModifiersFromSource(object source)
+    {
+        //TODO: apply removal of modifiers to CurrentAmount
+        return base.RemoveAllModifiersFromSource(source);
     }
 }

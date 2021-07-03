@@ -44,8 +44,8 @@ public enum StatType
 
     private readonly List<StatModifier> statModifiers;
 
-    private readonly float max;
-    private readonly float min;
+    public readonly float max;
+    public readonly float min;
 
     public CharacterStat(float baseValue, StatType name, float max, float min)
     {
@@ -56,13 +56,21 @@ public enum StatType
         this.min = min;
     }
 
-    
+    public StatModifier[] GetModifiers()
+    {
+        return statModifiers.ToArray();
+    }
 
-    public void AddModifier(StatModifier mod)
+
+    public void AddModifier(params StatModifier[] mods)
     {
         modifierDirty = true;
-        mod.Stat = Name;
-        statModifiers.Add(mod);
+        foreach(StatModifier mod in mods)
+        {
+            if (mod.Stat != Name)
+                Debug.Log("The modifier of type, " + mod.Stat.ToString() + ", should not be modifying " + Name.ToString());
+            statModifiers.Add(mod);
+        }
         statModifiers.Sort(CompareModifierOrder);
     }
 
@@ -123,8 +131,8 @@ public enum StatType
                     sumPercentAdd = 0; // Reset the sum back to 0
                 }
             }
-            else if (mod.ModType == StatModType.PercentMult) // Percent renamed to PercentMult
-            {
+            else if (mod.ModType == StatModType.PercentMult) 
+            { 
                 finalValue *= 1 + mod.Value;
             }
             else if (mod.ModType == StatModType.Flat)

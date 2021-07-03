@@ -26,10 +26,10 @@ public class ExposedStat : CharacterStat
         }
     }
 
-    public new void AddModifier(StatModifier mod) 
+    public new void AddModifier(params StatModifier[] mods) 
     {
         dirtyDerived();
-        base.AddModifier(mod);
+        base.AddModifier(mods);
     }
     public new void RemoveModifier(StatModifier mod)
     {
