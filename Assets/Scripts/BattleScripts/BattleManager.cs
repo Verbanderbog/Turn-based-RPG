@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,13 +7,20 @@ using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
-    public List<GameObject> participants;
-    List<GameObject> turnOrder;
-    Dictionary<int, List<GameObject>> teams;
+
+    [Serializable]
+    public struct participantAmounts
+    {
+        public GameObject participant;
+        public byte amount;
+    }
+    public List<participantAmounts> participants;
+    List<GameObject> turnOrder = new List<GameObject>();
+    Dictionary<int, List<GameObject>> teams = new Dictionary<int, List<GameObject>>();
     int currentCharacter=0;
     public ToggleGroup menubarToggleGroup;
     public GameObject moveListContent;
-    public GameObject movePrefab;
+    public GameObject moveUIPrefab;
     public GameObject allyAnchor;
     public GameObject enemyAnchor;
     public List<GameObject> characterPlacements;
@@ -22,8 +30,8 @@ public class BattleManager : MonoBehaviour
 
     private void OnValidate()
     {
-        assignTeamDictionary();
-        assignTurnOrder();
+        
+        
     }
     private void Awake()
     {
@@ -32,8 +40,8 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        assignTeamDictionary();
-        assignTurnOrder();
+        instatiateAndAssignTeamDictionaryTurnOrder();
+        
     }
 
     // Update is called once per frame
@@ -41,24 +49,59 @@ public class BattleManager : MonoBehaviour
     {
         
     }
-    private void assignTeamDictionary()
+    private void instatiateAndAssignTeamDictionaryTurnOrder()
     {
-        foreach(GameObject x in participants)
+        
+        foreach(participantAmounts x in participants)
         {
-            CharacterInstance xCharacter = x.GetComponent<CharacterInstance>();
-            if (false)
-            {
+            for(byte i=0; i < x.amount; i++) {
+                GameObject instance = Instantiate(x.participant, new Vector3(0, 0, 0), Quaternion.identity,null);
+                turnOrder.Add(instance);
+                int team = instance.GetComponent<CharacterInstance>().team;
+                if (!teams.ContainsKey(team))
+                {
+                    teams.Add(team, new List<GameObject>());
+                }
+                teams[team].Add(instance);
 
             }
+            
         }
-    }
-    private void assignTurnOrder()
-    {
-
-        turnOrder = new List<GameObject>(participants);
         turnOrder.Sort(compareCharacterSpeeds);
+        GameObject allyPlacement = Instantiate(characterPlacements[teams[0].Count - 1], new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0), allyAnchor.transform);
+        int enemies = 0;
+        foreach (int key in teams.Keys)
+        {
+            if (key == 0)
+                continue;
+            enemies += teams[key].Count;
+        }
+        GameObject enemyPlacement = Instantiate(characterPlacements[enemies - 1], new Vector3(0, 0, 0), new Quaternion(0,0,0,0), enemyAnchor.transform);
+        List<GameObject> teamList=new List<GameObject>();
+        foreach (int key in teams.Keys)
+        {
+            teamList.AddRange(teams[key]);
+            if (key == 0)
+            {
+                Transform[] allyPoints = allyPlacement.transform.GetComponentsInChildren<Transform>();
+                
+                for (int i=1; i<allyPoints.Length; i++)
+                {
+                    teamList[i - 1].transform.SetParent(allyPoints[i],false);
+                }
+                teamList = new List<GameObject>();
+            }
+            
+        }
+        Transform[] points = enemyPlacement.transform.GetComponentsInChildren<Transform>();
+        
+        for (int i = 1; i < points.Length; i++)
+        {
+            teamList[i - 1].transform.SetParent(points[i],false);
+        }
 
     }
+    
     private static int compareCharacterSpeeds(GameObject x, GameObject y)
     {
         CharacterInstance xCharacter =x.GetComponent<CharacterInstance>();
@@ -88,6 +131,8 @@ public class BattleManager : MonoBehaviour
             else
             {
                 // ...and y is not null, compare the speeds
+                Debug.Log(xCharacter + ", " + xCharacter._speed);
+                Debug.Log(yCharacter + ", " + yCharacter._speed);  
                 int retval = xCharacter._speed.Value.CompareTo(yCharacter._speed.Value);
                 if (retval != 0)
                 {
@@ -121,9 +166,9 @@ public class BattleManager : MonoBehaviour
                     button.onClick.RemoveAllListeners();
                 }
             }
-            foreach (Move x in turnOrder[currentCharacter].GetComponent<Character>().MoveSet)
+            foreach (Move x in turnOrder[currentCharacter].GetComponent<CharacterInstance>().MoveSet)
             {
-                GameObject moveUI = Instantiate(movePrefab, new Vector3(0, 0, 0), Quaternion.identity, moveListContent.transform);
+                GameObject moveUI = Instantiate(moveUIPrefab, new Vector3(0, 0, 0), Quaternion.identity, moveListContent.transform);
                 TMP_Text[] text = moveUI.GetComponentsInChildren<TMP_Text>();
                 text[0].text = x.Name;
                 text[1].text = x.ActionCost.ToString();

@@ -18,7 +18,7 @@ public class Function
     {
         m = Mathf.Round(((two.y - one.y) / (float) (two.x - one.x))*100000)/100000;
         b = Mathf.Round((one.y - (m * one.x)) * 100000)/ 100000;
-        Debug.Log("y = " + m + "x + " + b);
+        //Debug.Log("y = " + m + "x + " + b);
     }
 
     public float solve(int x)

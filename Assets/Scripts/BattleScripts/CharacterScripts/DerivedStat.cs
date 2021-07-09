@@ -31,7 +31,7 @@ public class DerivedStat : CharacterStat
             case StatType.Defense:
                 for (int i=0;i<parentStats.Length;i++)
                 {
-                    Debug.Log(name.ToString());
+
                     if (parentStats[i].Name == StatType.Strength)
                     {
                         ParentStatFunctions.Add(parentStats[i],new PiecewiseFunction(new Coordinate(0, 0), new Coordinate(10,0.2f), new Coordinate(30,0.40f), new Coordinate(70,0.55f), new Coordinate(100,0.675f)));
@@ -44,7 +44,7 @@ public class DerivedStat : CharacterStat
             case StatType.Dodge:
                 for (int i = 0; i < parentStats.Length; i++)
                 {
-                    Debug.Log(name.ToString());
+                   
                     if (parentStats[i].Name == StatType.Speed)
                     {
                         ParentStatFunctions.Add(parentStats[i], new PiecewiseFunction(new Coordinate(0, 0), new Coordinate(10, 0.25f), new Coordinate(30, 0.55f), new Coordinate(60, 0.70f), new Coordinate(100, 0.85f)));
@@ -58,7 +58,6 @@ public class DerivedStat : CharacterStat
             case StatType.CritDamage:
                 for (int i = 0; i < parentStats.Length; i++)
                 {
-                    Debug.Log(name.ToString());
                     if (parentStats[i].Name == StatType.Strength)
                     {
                         ParentStatFunctions.Add(parentStats[i], new PiecewiseFunction(new Coordinate(0, 0.1f), new Coordinate(100, 0.6f)));
@@ -77,7 +76,6 @@ public class DerivedStat : CharacterStat
             case StatType.CritChance:
                 for (int i = 0; i < parentStats.Length; i++)
                 {
-                    Debug.Log(name.ToString());
                     if (parentStats[i].Name == StatType.Aim )
                     {
                         ParentStatFunctions.Add(parentStats[i], new PiecewiseFunction(new Coordinate(0, 0), new Coordinate(100,0.90f)));
@@ -95,7 +93,6 @@ public class DerivedStat : CharacterStat
             case StatType.HitChance:
                 for (int i = 0; i < parentStats.Length; i++)
                 {
-                    Debug.Log(name.ToString());
                     if (parentStats[i].Name == StatType.Aim)
                     {
                         ParentStatFunctions.Add(parentStats[i], new PiecewiseFunction(new Coordinate(0, 0.9f), new Coordinate(100,2f)));
@@ -109,7 +106,6 @@ public class DerivedStat : CharacterStat
             case StatType.Melee:
                 for (int i = 0; i < parentStats.Length; i++)
                 {
-                    Debug.Log(name.ToString());
                     if (parentStats[i].Name == StatType.Strength)
                     {
                         ParentStatFunctions.Add(parentStats[i], new PiecewiseFunction(new Coordinate(0, 1), new Coordinate(100, 251)));
@@ -127,7 +123,6 @@ public class DerivedStat : CharacterStat
             case StatType.Ranged:
                 for (int i = 0; i < parentStats.Length; i++)
                 {
-                    Debug.Log(name.ToString());
                     if (parentStats[i].Name == StatType.Aim)
                     {
                         ParentStatFunctions.Add(parentStats[i], new PiecewiseFunction(new Coordinate(0, 1), new Coordinate(100, 251)));
@@ -145,7 +140,6 @@ public class DerivedStat : CharacterStat
             case StatType.Ability:
                 for (int i = 0; i < parentStats.Length; i++)
                 {
-                    Debug.Log(name.ToString());
                     if ( parentStats[i].Name == StatType.Logic)
                     {
                         ParentStatFunctions.Add(parentStats[i], new PiecewiseFunction(new Coordinate(0, 1), new Coordinate(100, 401)));

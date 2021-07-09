@@ -106,6 +106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2506263637916024029}
+  - component: {fileID: 6090544137682458788}
   m_Layer: 0
   m_Name: TestUnit
   m_TagString: Untagged
@@ -129,6 +130,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6090544137682458788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2506263637916024018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b64fdbdc5709b8842b86fa5d5ff86343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStats: {fileID: 0}
+  VaryStatsAndDontUpdate: 1
+  Name: Base
+  Level: 1
+  HealthMax: 1
+  ActionPointsMax: 1
+  Strength: 0
+  Speed: 1
+  Aim: 0
+  Logic: 0
+  CombineOrOverrideBase: 1
+  DefaultMoveList: []
+  AllowDifferentTeam: 0
+  team: 1
 --- !u!1 &3088628757833939402
 GameObject:
   m_ObjectHideFlags: 0

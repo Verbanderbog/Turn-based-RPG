@@ -238,13 +238,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b64fdbdc5709b8842b86fa5d5ff86343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseStats: {fileID: 0}
   VaryStatsAndDontUpdate: 1
-  Name: 
+  Name: Enemy
   Level: 1
   HealthMax: 1
   ActionPointsMax: 1
   Strength: 0
-  Speed: 0
+  Speed: 1
   Aim: 0
   Logic: 0
   CombineOrOverrideBase: 1

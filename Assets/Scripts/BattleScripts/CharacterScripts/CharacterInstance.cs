@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterInstance : MonoBehaviour
-{   
-    Character baseStats;
-    public bool VaryStatsAndDontUpdate=true;//if true stats will vary by a set amount and EXP/stat changes will not update on the base sheet
+{
+    public Character baseStats;
+    public bool VaryStatsAndDontUpdate = true;//if true stats will vary by a set amount and EXP/stat changes will not update on the base sheet
     public string Name = "";
     public short Level = 1;
     public int HealthMax = 1;
@@ -21,9 +21,9 @@ public class CharacterInstance : MonoBehaviour
 
     public HashSet<Move> MoveSet;
 
-    public bool AllowDifferentTeam=false;
+    public bool AllowDifferentTeam = false;
 
-    public byte team=1;
+    public byte team = 1;
 
     //Exposed Stats
     public ResourceStat _health;
@@ -43,7 +43,7 @@ public class CharacterInstance : MonoBehaviour
     public DerivedStat _ability;
 
 
-    private void prepareCharacterStats()    
+    private void prepareCharacterStats()
     {
         if (baseStats != null)
         {
@@ -70,18 +70,17 @@ public class CharacterInstance : MonoBehaviour
             }
             MoveSet = new HashSet<Move>();
             MoveSet.UnionWith(DefaultMoveList);
-        }
-        
-        if (VaryStatsAndDontUpdate)
-        {
-            _health = new ResourceStat(HealthMax, StatType.Health);
-            _actionPoints = new ResourceStat(ActionPointsMax, StatType.ActionPoints);
-            _strength = new ExposedStat(Strength, StatType.Strength, _defense, _critDamage, _melee);
-            _speed = new ExposedStat(Speed, StatType.Speed, _critChance, _dodge);
-            _aim = new ExposedStat(Aim, StatType.Aim, _hitChance, _critChance, _ranged);
-            _logic = new ExposedStat(Logic, StatType.Logic, _ability, _critDamage, _melee, _ranged);
-            if (baseStats != null)
+
+
+            if (VaryStatsAndDontUpdate)
             {
+                _health = new ResourceStat(HealthMax, StatType.Health);
+                _actionPoints = new ResourceStat(ActionPointsMax, StatType.ActionPoints);
+                _strength = new ExposedStat(Strength, StatType.Strength, _defense, _critDamage, _melee);
+                _speed = new ExposedStat(Speed, StatType.Speed, _critChance, _dodge);
+                _aim = new ExposedStat(Aim, StatType.Aim, _hitChance, _critChance, _ranged);
+                _logic = new ExposedStat(Logic, StatType.Logic, _ability, _critDamage, _melee, _ranged);
+
                 _defense = new DerivedStat(StatType.Defense, baseStats._defense.max, baseStats._defense.min, _strength);
                 _dodge = new DerivedStat(StatType.Dodge, baseStats._dodge.max, baseStats._dodge.min, _speed);
                 _critDamage = new DerivedStat(StatType.CritDamage, baseStats._critDamage.max, baseStats._critDamage.min, _strength, _logic);
@@ -106,47 +105,63 @@ public class CharacterInstance : MonoBehaviour
                 _melee.AddModifier(baseStats._melee.GetModifiers());
                 _ranged.AddModifier(baseStats._ranged.GetModifiers());
                 _ability.AddModifier(baseStats._ability.GetModifiers());
+                
+
             }
             else
             {
-                _defense = new DerivedStat(StatType.Defense, 0.9f, 0f, _strength);
-                _dodge = new DerivedStat(StatType.Dodge, 5f, -5f, _speed);
-                _critDamage = new DerivedStat(StatType.CritDamage, 4f, 1f, _strength, _logic);
-                _critChance = new DerivedStat(StatType.CritChance, 4f, 0f, _speed, _aim);
-                _hitChance = new DerivedStat(StatType.HitChance, 4f, 0f, _aim);
-                _melee = new DerivedStat(StatType.Melee, 1000f, 1f, _strength, _logic);
-                _ranged = new DerivedStat(StatType.Ranged, 1000f, 1f, _aim, _logic);
-                _ability = new DerivedStat(StatType.Ability, 1000f, 1f, _logic);
+                _health = baseStats._health;
+                _actionPoints = baseStats._actionPoints;
+                _strength = baseStats._strength;
+                _speed = baseStats._speed;
+                _aim = baseStats._aim;
+                _logic = baseStats._logic;
+
+                _defense = baseStats._defense;
+                _dodge = baseStats._dodge;
+                _critDamage = baseStats._critDamage;
+                _critChance = baseStats._critChance;
+                _hitChance = baseStats._hitChance;
+                _melee = baseStats._melee;
+                _ranged = baseStats._ranged;
+                _ability = baseStats._ability;
             }
-        }
+        } 
         else
         {
-            _health = baseStats._health;
-            _actionPoints = baseStats._actionPoints;
-            _strength = baseStats._strength;
-            _speed = baseStats._speed;
-            _aim = baseStats._aim;
-            _logic = baseStats._logic;
+            MoveSet = new HashSet<Move>();
+            MoveSet.UnionWith(DefaultMoveList);
 
-            _defense = baseStats._defense;
-            _dodge = baseStats._dodge;
-            _critDamage = baseStats._critDamage;
-            _critChance = baseStats._critChance;
-            _hitChance = baseStats._hitChance;
-            _melee = baseStats._melee;
-            _ranged = baseStats._ranged;
-            _ability = baseStats._ability;
+            _health = new ResourceStat(HealthMax, StatType.Health);
+            _actionPoints = new ResourceStat(ActionPointsMax, StatType.ActionPoints);
+            _strength = new ExposedStat(Strength, StatType.Strength, _defense, _critDamage, _melee);
+            _speed = new ExposedStat(Speed, StatType.Speed, _critChance, _dodge);
+            _aim = new ExposedStat(Aim, StatType.Aim, _hitChance, _critChance, _ranged);
+            _logic = new ExposedStat(Logic, StatType.Logic, _ability, _critDamage, _melee, _ranged);
+
+            _defense = new DerivedStat(StatType.Defense, 0.9f, 0f, _strength);
+            _dodge = new DerivedStat(StatType.Dodge, 5f, -5f, _speed);
+            _critDamage = new DerivedStat(StatType.CritDamage, 4f, 1f, _strength, _logic);
+            _critChance = new DerivedStat(StatType.CritChance, 4f, 0f, _speed, _aim);
+            _hitChance = new DerivedStat(StatType.HitChance, 4f, 0f, _aim);
+            _melee = new DerivedStat(StatType.Melee, 1000f, 1f, _strength, _logic);
+            _ranged = new DerivedStat(StatType.Ranged, 1000f, 1f, _aim, _logic);
+            _ability = new DerivedStat(StatType.Ability, 1000f, 1f, _logic);
         }
     }
     private void OnValidate()
     {
         prepareCharacterStats();
-       
+
+    }
+    private void Awake()
+    {
+        prepareCharacterStats();
     }
     // Start is called before the first frame update
     void Start()
     {
-        prepareCharacterStats();
+        
 
     }
 
@@ -154,7 +169,11 @@ public class CharacterInstance : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-    
+
+    public override string ToString()
+    {
+        return Name + " Lvl: " + Level;
+    }
 }
