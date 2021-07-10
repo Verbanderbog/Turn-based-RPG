@@ -15,6 +15,7 @@ public class CharacterInstance : MonoBehaviour
     public short Aim = 0; //determines hit chance, crit chance and ranged damage
     public short Logic = 0; //determines ability damage, crit damage, a little melee damage, and a little ranged damage
 
+    public List<NameplateBarUI> nameplates;
 
     public bool CombineOrOverrideBase = true;//True combines, false overrides when defaultmovelist has moves
     public List<Move> DefaultMoveList = new List<Move>();
@@ -157,6 +158,11 @@ public class CharacterInstance : MonoBehaviour
     private void Awake()
     {
         prepareCharacterStats();
+        //set nameplates
+        foreach(NameplateBarUI nameplate in nameplates)
+        {
+            nameplate.setupNameplate(this);
+        }
     }
     // Start is called before the first frame update
     void Start()
