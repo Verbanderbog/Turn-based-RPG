@@ -18,6 +18,8 @@ public class Character : ScriptableObject
     public short Aim; //determines hit chance, crit chance and ranged damage
     public short Logic; //determines ability damage, crit damage, a little melee damage, and a little ranged damage
 
+    public Move BasicAttack;
+
     public List<Move> DefaultMoveList;
 
     public HashSet<Move> MoveSet;

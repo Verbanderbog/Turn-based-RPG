@@ -18,8 +18,8 @@ public class CharacterInstance : MonoBehaviour
     public List<NameplateBarUI> nameplates;
 
     public bool CombineOrOverrideBase = true;//True combines, false overrides when defaultmovelist has moves
+    public Move BasicAttack;
     public List<Move> DefaultMoveList = new List<Move>();
-
     public HashSet<Move> MoveSet;
 
     public bool AllowDifferentTeam = false;
@@ -71,6 +71,11 @@ public class CharacterInstance : MonoBehaviour
             }
             MoveSet = new HashSet<Move>();
             MoveSet.UnionWith(DefaultMoveList);
+
+            if (BasicAttack == null)
+            {
+                BasicAttack = baseStats.BasicAttack;
+            }
 
 
             if (VaryStatsAndDontUpdate)
